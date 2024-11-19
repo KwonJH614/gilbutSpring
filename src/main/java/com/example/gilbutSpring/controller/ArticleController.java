@@ -4,6 +4,7 @@ import com.example.gilbutSpring.dto.ArticleForm;
 import com.example.gilbutSpring.entity.Article;
 import com.example.gilbutSpring.repository.ArticleRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.asm.IModelFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -50,5 +52,15 @@ public class ArticleController {
     model.addAttribute("article", articleEntity);
     // 3. Return the view page
     return "articles/show";
+  }
+
+  @GetMapping("/articles")
+  public String index(Model model) {
+    // 1. Fetch all data
+    List<Article> articleEntityList = articleRepository.findAll();
+    // 2. Add data to the model
+    model.addAttribute("articleList", articleEntityList);
+    // 3. Set the view page
+    return "articles/index";
   }
 }
