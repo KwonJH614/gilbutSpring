@@ -4,7 +4,6 @@ import com.example.gilbutSpring.dto.ArticleForm;
 import com.example.gilbutSpring.entity.Article;
 import com.example.gilbutSpring.repository.ArticleRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.asm.IModelFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @Slf4j
@@ -47,9 +45,9 @@ public class ArticleController {
   public String show(@PathVariable Long id, Model model) {
     log.info("id = " + id);
     // 1. Fetch data by id
-    Article articleEntity = articleRepository.findById(id).orElse(null);
+    Article article = articleRepository.findById(id).orElse(null);
     // 2. Add data to the model
-    model.addAttribute("article", articleEntity);
+    model.addAttribute("article", article);
     // 3. Return the view page
     return "articles/show";
   }
@@ -57,10 +55,20 @@ public class ArticleController {
   @GetMapping("/articles")
   public String index(Model model) {
     // 1. Fetch all data
-    List<Article> articleEntityList = articleRepository.findAll();
+    List<Article> articleList = articleRepository.findAll();
     // 2. Add data to the model
-    model.addAttribute("articleList", articleEntityList);
+    model.addAttribute("articleList", articleList);
     // 3. Set the view page
     return "articles/index";
+  }
+
+  @GetMapping("/articles/{id}/edit.mustache")
+  public String edit(@PathVariable Long id, Model model) {
+    // Fetch data to update
+    Article article = articleRepository.findById(id).orElse(null);
+    // Add data to the model
+    model.addAttribute("article", article);
+    // Set the view page
+    return "articles/edit.mustache";
   }
 }
