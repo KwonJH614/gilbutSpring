@@ -62,13 +62,28 @@ public class ArticleController {
     return "articles/index";
   }
 
-  @GetMapping("/articles/{id}/edit.mustache")
+  @GetMapping("/articles/{id}/edit")
   public String edit(@PathVariable Long id, Model model) {
     // Fetch data to update
     Article article = articleRepository.findById(id).orElse(null);
     // Add data to the model
     model.addAttribute("article", article);
     // Set the view page
-    return "articles/edit.mustache";
+    return "articles/edit";
+  }
+
+  @PostMapping("/articles/update")
+  public String update(ArticleForm form) {
+    log.info(form.toString());
+    // 1. Convert DTO to Entity
+    Article article = form.toEntity();
+    log.info(article.toString());
+    // 2. Save Entity to DB
+    // 2-1. Fetch existing data from DB
+    Article target = articleRepository.findById(article.getId()).orElse(null);
+    // 2-2 Update existing data values
+    if (target != null) { articleRepository.save(article); }
+    // 3. Redirect to the edit result page
+    return "redirect:/articles/" + article.getId();
   }
 }
