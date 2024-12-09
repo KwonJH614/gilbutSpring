@@ -103,7 +103,7 @@ class ArticleServiceTest {
     String title = "가가가가123";
     String content = null;
     ArticleForm dto = new ArticleForm(id, title, content);
-    Article expected = new Article(1L, "가가가가123", "1111");
+    Article expected = new Article(id, title, "1111");
     // 2. 실제 데이터
     Article article = articleService.update(id, dto);
     // 3. 비교 및 검증
