@@ -27,7 +27,11 @@ public class ArticleService {
   }
 
   public Article create(ArticleForm dto) {
-    return null;
+    Article article = dto.toEntity();
+    if (article.getId() != null) {
+      return null;
+    }
+    return articleRepository.save(article);
   }
 
   public Article update(Long id, ArticleForm dto) {
