@@ -17,7 +17,6 @@ public class ArticleService {
   @Autowired
   private ArticleRepository articleRepository; // 게시글 리포지토리 객체 주입
 
-
   public List<Article> index() {
     return articleRepository.findAll();
   }
