@@ -22,4 +22,9 @@ public class Comment {
   private String nickname;
   @Column
   private String body;
+
+  @Override
+  public String toString() {
+    return "Comment{id=" + id + ", article=" + article.getId() + ", nickname='" + nickname + "', body='" + body + "'}";
+  }
 }
